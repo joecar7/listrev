@@ -34,19 +34,20 @@ static void say_list(struct node *list)
 	}
 }
 
-static struct node *reverse(struct node *list)
+static void reverse(struct node **list)
 {
 	struct node *prev = NULL;
 	struct node *next;
+	struct node *curr = *list;
 
-	while (list) {
-		next = list->next;
-		list->next = prev;
-		prev = list;
-		list = next;
+	while (curr) {
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
 	}
 
-	return prev;
+	*list = prev;
 }
 
 int main(int argc, char **argv)
@@ -57,7 +58,7 @@ int main(int argc, char **argv)
 	for (i = 0; i < 10; i++)
 		make(&list, i);
 	say_list(list);
-	list = reverse(list);
+	reverse(&list);
 	say_list(list);
 
 	return 0;
